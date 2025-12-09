@@ -793,6 +793,28 @@
             border-style: solid;
             border-color: #667eea;
         }
+        .branch-zone {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 200px;
+            border-width: 3px;
+        }
+
+        .branch-zone h4 {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid currentColor;
+            margin-bottom: 15px;
+        }
+
+        .branch-zone .timeline-event {
+            margin-bottom: 8px;
+        }
+
+        .branch-zone .empty-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
 
         .timeline-slot .empty-message {
             color: #666;
@@ -1200,7 +1222,7 @@
                         <small>Get hints when you're wrong!</small>
                     </button>
                     <button class="nav-btn" onclick="showSection('timeline')" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                        <i class="fas fa-clock"></i> Timeline Challenge<br>
+                        <i class="fas fa-balance-scale"></i> Powers Sort<br>
                         <small>Put events in chronological order (10 events)</small>
                     </button>
                     <button class="nav-btn success" onclick="showSection('shortanswer')">
@@ -1479,45 +1501,46 @@
             <div id="timeline" class="section">
                 <button class="btn btn-secondary" onclick="showSection('home')">← Back to Home</button>
 
-                <h2 style="margin: 20px 0;"><i class="fas fa-clock"></i> Timeline Challenge</h2>
+                <h2 style="margin: 20px 0;"><i class="fas fa-balance-scale"></i> Powers Sort Challenge</h2>
 
                 <div class="alert info">
                     <i class="fas fa-info-circle"></i>
                     <div>
-                        <strong>Timeline Challenge:</strong> Arrange the 10 key events leading to and including the Revolutionary War in chronological order! Understanding the sequence helps you see how tensions escalated over time.
+                        <strong>Powers Sort:</strong> Sort the governmental powers and responsibilities into the correct branch! Understanding which branch does what is key to understanding our system of government.
                     </div>
                 </div>
 
-                <div class="timeline-mode-toggle">
-                    <button class="mode-btn active" id="easyModeBtn" onclick="setTimelineMode('easy')">
-                        <i class="fas fa-lightbulb"></i> Show Years (default)
-                    </button>
-                    <button class="mode-btn" id="challengeModeBtn" onclick="setTimelineMode('challenge')">
-                        <i class="fas fa-medal"></i> Challenge Mode
-                    </button>
-                </div>
+                
 
                 <div class="keyboard-hint">
-                    <span><span class="key">Click & Drag</span> Move events</span>
+                    <span><span class="key">Click & Drag</span> Sort powers</span>
                     <span><span class="key">R</span> Restart</span>
                     <span><span class="key">Esc</span> Home</span>
                 </div>
 
-                <div id="timelineStats" style="text-align: center; margin: 20px 0; display: none;">
+                <div id="powersStats" style="text-align: center; margin: 20px 0; display: none;">
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; display: inline-block;">
-                        <strong>Best Score:</strong> <span id="timelineBestScore">0</span>/10 |
-                        <strong>Perfect Scores:</strong> <span id="timelinePerfectCount">0</span>/3 |
-                        <strong>Attempts:</strong> <span id="timelineAttempts">0</span>
+                        <strong>Best Score:</strong> <span id="powersBestScore">0</span>/15 |
+                        <strong>Perfect Scores:</strong> <span id="powersPerfectCount">0</span>/3 |
+                        <strong>Attempts:</strong> <span id="powersAttempts">0</span>
                     </div>
                 </div>
 
-                <div class="timeline-container" id="timelineContainer">
+                <div class="timeline-container" id="powersContainer">
                     <div class="timeline-events">
                         <h3 style="margin-bottom: 20px; color: #667eea;">
-                            <i class="fas fa-list"></i> Events to Arrange
+                            <i class="fas fa-list"></i> Powers to Sort
                         </h3>
-                        <div id="timelineEventsList"></div>
+                        <div id="powersList"></div>
                     </div>
+
+                    <div class="timeline-slots" style="flex: 1.5;">
+                        <h3 style="margin-bottom: 20px; color: #667eea;">
+                            <i class="fas fa-balance-scale"></i> Three Branches
+                        </h3>
+                        <div id="branchZones"></div>
+                    </div>
+                </div>
 
                     <div class="timeline-slots">
                         <h3 style="margin-bottom: 20px; color: #667eea;">
@@ -1528,18 +1551,18 @@
                 </div>
 
                 <div style="text-align: center; margin: 30px 0;">
-                    <button class="btn btn-primary" onclick="checkTimelineAnswer()" id="checkTimelineBtn" style="font-size: 1.1em; padding: 12px 30px;">
+                    <button class="btn btn-primary" onclick="checkPowersAnswer()" id="checkTimelineBtn" style="font-size: 1.1em; padding: 12px 30px;">
                         <i class="fas fa-check-circle"></i> Check My Answer
                     </button>
-                    <button class="btn btn-secondary" onclick="resetTimeline()" style="font-size: 1.1em; padding: 12px 30px;">
+                    <button class="btn btn-secondary" onclick="resetPowers()" style="font-size: 1.1em; padding: 12px 30px;">
                         <i class="fas fa-redo"></i> Try Again
                     </button>
-                    <button class="btn btn-secondary" onclick="showTimelineAnswer()" style="font-size: 1.1em; padding: 12px 30px;">
+                    <button class="btn btn-secondary" onclick="showPowersAnswer()" style="font-size: 1.1em; padding: 12px 30px;">
                         <i class="fas fa-eye"></i> Show Answer
                     </button>
                 </div>
 
-                <div id="timelineResults"></div>
+                <div id="powersResults"></div>
             </div>
         </div>
     </div>
@@ -1547,68 +1570,99 @@
     <script>
         // ==================== DATA ====================
 
-        // Timeline events in chronological order
-                const timelineEvents = [
+                // Branch powers for sorting activity
+        const branchPowers = [
             {
                 id: 1,
-                title: "Constitutional Convention Begins",
-                year: "1787",
-                description: "Delegates meet in Philadelphia to revise the Articles of Confederation"
+                power: "Makes federal laws",
+                description: "Creates and passes legislation",
+                correctBranch: "legislative"
             },
             {
                 id: 2,
-                title: "Virginia Plan Proposed",
-                year: "1787",
-                description: "Large states propose representation based on population"
+                power: "Enforces laws",
+                description: "Carries out and implements federal laws",
+                correctBranch: "executive"
             },
             {
                 id: 3,
-                title: "New Jersey Plan Proposed",
-                year: "1787",
-                description: "Small states propose equal representation for all states"
+                power: "Interprets laws and the Constitution",
+                description: "Decides if laws are constitutional",
+                correctBranch: "judicial"
             },
             {
                 id: 4,
-                title: "Great Compromise",
-                year: "1787",
-                description: "Agreement creates two-house Congress: Senate and House of Representatives"
+                power: "Can veto legislation",
+                description: "President can reject bills passed by Congress",
+                correctBranch: "executive"
             },
             {
                 id: 5,
-                title: "Constitution Signed",
-                year: "1787",
-                description: "39 delegates sign the final Constitution document"
+                power: "Overrides presidential vetoes",
+                description: "Can pass a law despite veto with 2/3 vote",
+                correctBranch: "legislative"
             },
             {
                 id: 6,
-                title: "Federalist Papers Begin",
-                year: "1787",
-                description: "Hamilton, Madison, and Jay write essays supporting ratification"
+                power: "Appoints federal judges",
+                description: "President nominates Supreme Court justices",
+                correctBranch: "executive"
             },
             {
                 id: 7,
-                title: "Delaware Ratifies First",
-                year: "1787",
-                description: "Delaware becomes the first state to ratify the Constitution"
+                power: "Approves federal judges",
+                description: "Senate confirms judicial appointments",
+                correctBranch: "legislative"
             },
             {
                 id: 8,
-                title: "Constitution Takes Effect",
-                year: "1788",
-                description: "Nine states ratify, meeting the requirement for adoption"
+                power: "Declares laws unconstitutional",
+                description: "Judicial review of legislation",
+                correctBranch: "judicial"
             },
             {
                 id: 9,
-                title: "Bill of Rights Proposed",
-                year: "1789",
-                description: "James Madison proposes amendments to protect individual rights"
+                power: "Controls federal spending",
+                description: "Creates the federal budget",
+                correctBranch: "legislative"
             },
             {
                 id: 10,
-                title: "Bill of Rights Ratified",
-                year: "1791",
-                description: "First ten amendments become part of the Constitution"
+                power: "Commands the armed forces",
+                description: "President is Commander in Chief",
+                correctBranch: "executive"
+            },
+            {
+                id: 11,
+                power: "Declares war",
+                description: "Only Congress can officially declare war",
+                correctBranch: "legislative"
+            },
+            {
+                id: 12,
+                power: "Negotiates treaties",
+                description: "President makes agreements with other nations",
+                correctBranch: "executive"
+            },
+            {
+                id: 13,
+                power: "Ratifies treaties",
+                description: "Senate must approve treaties with 2/3 vote",
+                correctBranch: "legislative"
+            },
+            {
+                id: 14,
+                power: "Presides over impeachment trials",
+                description: "Chief Justice leads Senate impeachment trials",
+                correctBranch: "judicial"
+            },
+            {
+                id: 15,
+                power: "Can impeach federal officials",
+                description: "House brings charges, Senate conducts trial",
+                correctBranch: "legislative"
             }
+            // ADD MORE POWERS HERE
         ];
 
                 const vocabulary = [
@@ -1701,10 +1755,10 @@
             perfectCount: 0,
             attempts: 0
         };
-        let timelineMode = 'easy'; // Start in easy mode (show years)
-        let timelinePlaced = {}; // Maps slot index to event id
-        let draggedEvent = null;
-        let hasCheckedInEasyMode = false; // Track if user has checked answer in easy mode
+        // Powers sort doesn't need mode // Start in easy mode (show years)
+        let powersPlaced = { legislative: [], executive: [], judicial: [] }; // Maps slot index to event id
+        let draggedPower = null;
+        // Powers sort tracking // Track if user has checked answer in easy mode
 
         const badges = [
             { id: 'first_study', name: 'First Steps', icon: '👶', description: 'Complete your first study session', check: () => totalStudyTime > 0 },
@@ -1716,7 +1770,7 @@
             { id: 'test_pass', name: 'Test Taker', icon: '✅', description: 'Score 80% or higher on a practice test', check: () => testResults.some(t => t.score >= 80) },
             { id: 'perfect_test', name: 'Perfect Score', icon: '💯', description: 'Get 100% on a practice test', check: () => testResults.some(t => t.score >= 100) },
             { id: 'study_hour', name: 'Time Traveler', icon: '⏰', description: 'Study for at least 1 hour total', check: () => totalStudyTime >= 3600000 },
-            { id: 'timeline_master', name: 'Timeline Master', icon: '🕰️', description: 'Get perfect timeline score 3 times', check: () => timelineProgress.perfectCount >= 3 }
+            { id: 'powers_master', name: 'Powers Master', icon: '⚖️', description: 'Get perfect powers sort 3 times', check: () => powersProgress.perfectCount >= 3 }
         ];
 
         // ==================== NOTE-TAKING REMINDER MODAL ====================
@@ -1929,7 +1983,7 @@
                 } else if (sectionId === 'focused') {
                     loadFocusedMode();
                 } else if (sectionId === 'timeline') {
-                    loadTimeline();
+                    loadPowers();
                 }
             }
         }
@@ -3448,139 +3502,237 @@
 
         // ==================== TIMELINE CHALLENGE ====================
 
-        function loadTimeline() {
-            updateTimelineStats();
-            renderTimeline();
+        function loadPowers() {
+            updatePowersStats();
+            renderPowers();
         }
 
-        function renderTimeline() {
-            // Randomize events for display
-            const shuffled = [...timelineEvents].sort(() => Math.random() - 0.5);
+        function renderPowers() {
+            // Randomize powers for display
+            const shuffled = [...branchPowers].sort(() => Math.random() - 0.5);
 
-            // Render events list
-            let eventsHTML = '';
-            shuffled.forEach(event => {
-                const isPlaced = Object.values(timelinePlaced).includes(event.id);
-                if (!isPlaced) {
-                    eventsHTML += `
-                        <div class="timeline-event" draggable="true" data-event-id="${event.id}"
-                            ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+            // Render unplaced powers list
+            let powersHTML = '';
+            const placedIds = [...powersPlaced.legislative, ...powersPlaced.executive, ...powersPlaced.judicial];
+
+            shuffled.forEach(power => {
+                if (!placedIds.includes(power.id)) {
+                    powersHTML += `
+                        <div class="timeline-event" draggable="true" data-power-id="${power.id}"
+                            ondragstart="handlePowerDragStart(event)" ondragend="handlePowerDragEnd(event)">
                             <div class="event-title">
                                 <span class="drag-handle">⋮⋮</span>
-                                ${event.title}
-                                ${timelineMode === 'easy' ? `<span class="event-year">${event.year}</span>` : ''}
+                                ${power.power}
                             </div>
-                            <div class="event-description">${event.description}</div>
+                            <div class="event-description">${power.description}</div>
                         </div>
                     `;
                 }
             });
-            document.getElementById('timelineEventsList').innerHTML = eventsHTML || '<p style="text-align: center; color: #999; padding: 20px;">All events placed!</p>';
+            document.getElementById('powersList').innerHTML = powersHTML || '<p style="text-align: center; color: #999; padding: 20px;">All powers sorted!</p>';
 
-            // Render timeline slots
-            let slotsHTML = '';
-            for (let i = 1; i <= 10; i++) {
-                const eventId = timelinePlaced[i];
-                const event = timelineEvents.find(e => e.id === eventId);
+            // Render the three branch zones
+            const branches = [
+                { id: 'legislative', name: 'Legislative Branch', icon: '🏛️', color: '#667eea' },
+                { id: 'executive', name: 'Executive Branch', icon: '⚖️', color: '#f093fb' },
+                { id: 'judicial', name: 'Judicial Branch', icon: '👨‍⚖️', color: '#4facfe' }
+            ];
 
-                slotsHTML += `
-                    <div class="timeline-slot ${event ? 'filled' : ''}" data-slot="${i}"
-                        ondragover="handleDragOver(event)" ondrop="handleDrop(event, ${i})" ondragleave="handleDragLeave(event)">
-                        <div class="slot-number">${i}</div>
+            let branchesHTML = '';
+            branches.forEach(branch => {
+                const placedPowers = powersPlaced[branch.id].map(id => branchPowers.find(p => p.id === id));
+
+                branchesHTML += `
+                    <div class="timeline-slot branch-zone" data-branch="${branch.id}"
+                        ondragover="handlePowerDragOver(event)"
+                        ondrop="handlePowerDrop(event, '${branch.id}')"
+                        ondragleave="handlePowerDragLeave(event)"
+                        style="border-color: ${branch.color}; min-height: 150px; margin-bottom: 20px;">
+                        <h4 style="color: ${branch.color}; margin-bottom: 15px; font-size: 1.2em;">
+                            ${branch.icon} ${branch.name}
+                        </h4>
                 `;
 
-                if (event) {
-                    slotsHTML += `
-                        <div class="timeline-event placed" data-event-id="${event.id}" draggable="true"
-                            ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)" onclick="removeFromSlot(${i})">
-                            <div class="event-title">
-                                ${event.title}
-                                ${timelineMode === 'easy' ? `<span class="event-year">${event.year}</span>` : ''}
-                            </div>
-                            <div class="event-description">${event.description}</div>
-                            <p style="font-size: 0.8em; color: #999; margin-top: 8px; text-align: center;">Click to remove</p>
-                        </div>
-                    `;
+                if (placedPowers.length === 0) {
+                    branchesHTML += '<div class="empty-message">Drag powers here</div>';
                 } else {
-                    slotsHTML += '<div class="empty-message">Drag an event here</div>';
+                    placedPowers.forEach(power => {
+                        branchesHTML += `
+                            <div class="timeline-event placed" data-power-id="${power.id}" draggable="true"
+                                ondragstart="handlePowerDragStart(event)" ondragend="handlePowerDragEnd(event)"
+                                onclick="removeFromBranch('${branch.id}', ${power.id})"
+                                style="margin-bottom: 10px; cursor: pointer;">
+                                <div class="event-title">${power.power}</div>
+                                <div class="event-description">${power.description}</div>
+                                <p style="font-size: 0.8em; color: #999; margin-top: 8px; text-align: center;">Click to remove</p>
+                            </div>
+                        `;
+                    });
                 }
 
-                slotsHTML += '</div>';
-            }
-            document.getElementById('timelineSlotsList').innerHTML = slotsHTML;
+                branchesHTML += '</div>';
+            });
+
+            document.getElementById('branchZones').innerHTML = branchesHTML;
         }
 
-        function handleDragStart(e) {
-            const eventId = parseInt(e.target.closest('.timeline-event').dataset.eventId);
-            draggedEvent = eventId;
+        function handlePowerDragStart(e) {
+            const powerId = parseInt(e.target.closest('.timeline-event').dataset.powerId);
+            draggedPower = powerId;
             e.target.closest('.timeline-event').classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         }
 
-        function handleDragEnd(e) {
+        function handlePowerDragEnd(e) {
             e.target.closest('.timeline-event').classList.remove('dragging');
         }
 
-        function handleDragOver(e) {
+        function handlePowerDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            e.target.closest('.timeline-slot').classList.add('drag-over');
-
-            // Auto-scroll when dragging near edges
-            const slotsContainer = document.querySelector('.timeline-slots');
-            const rect = slotsContainer.getBoundingClientRect();
-            const scrollThreshold = 100;
-            const scrollSpeed = 10;
-
-            if (e.clientY - rect.top < scrollThreshold) {
-                slotsContainer.scrollTop -= scrollSpeed;
-            } else if (rect.bottom - e.clientY < scrollThreshold) {
-                slotsContainer.scrollTop += scrollSpeed;
+            const branchZone = e.target.closest('.branch-zone');
+            if (branchZone) {
+                branchZone.classList.add('drag-over');
             }
         }
 
-        function handleDragLeave(e) {
-            e.target.closest('.timeline-slot').classList.remove('drag-over');
+        function handlePowerDragLeave(e) {
+            const branchZone = e.target.closest('.branch-zone');
+            if (branchZone) {
+                branchZone.classList.remove('drag-over');
+            }
         }
 
-        function handleDrop(e, slotIndex) {
+        function handlePowerDrop(e, branchId) {
             e.preventDefault();
-            e.target.closest('.timeline-slot').classList.remove('drag-over');
+            const branchZone = e.target.closest('.branch-zone');
+            if (branchZone) {
+                branchZone.classList.remove('drag-over');
+            }
 
-            if (draggedEvent) {
-                // Remove from previous slot if exists
-                Object.keys(timelinePlaced).forEach(key => {
-                    if (timelinePlaced[key] === draggedEvent) {
-                        delete timelinePlaced[key];
+            if (draggedPower) {
+                // Remove from all branches first
+                ['legislative', 'executive', 'judicial'].forEach(branch => {
+                    const index = powersPlaced[branch].indexOf(draggedPower);
+                    if (index > -1) {
+                        powersPlaced[branch].splice(index, 1);
                     }
                 });
 
-                // Place in new slot
-                timelinePlaced[slotIndex] = draggedEvent;
-                draggedEvent = null;
-                renderTimeline();
+                // Add to new branch
+                powersPlaced[branchId].push(draggedPower);
+                draggedPower = null;
+                renderPowers();
             }
         }
 
-        function removeFromSlot(slotIndex) {
-            delete timelinePlaced[slotIndex];
-            renderTimeline();
+        function removeFromBranch(branchId, powerId) {
+            const index = powersPlaced[branchId].indexOf(powerId);
+            if (index > -1) {
+                powersPlaced[branchId].splice(index, 1);
+            }
+            renderPowers();
         }
 
-        function setTimelineMode(mode) {
-            timelineMode = mode;
-            document.getElementById('easyModeBtn').classList.toggle('active', mode === 'easy');
-            document.getElementById('challengeModeBtn').classList.toggle('active', mode === 'challenge');
+        function checkPowersAnswer() {
+            let correct = 0;
+            const totalPowers = branchPowers.length;
+            let feedback = '<div style="margin-top: 20px;">';
 
-            // Reset the timeline when switching modes to prevent cheating
-            timelinePlaced = {};
-            document.getElementById('timelineResults').innerHTML = '';
+            // Check each branch
+            ['legislative', 'executive', 'judicial'].forEach(branchId => {
+                powersPlaced[branchId].forEach(powerId => {
+                    const power = branchPowers.find(p => p.id === powerId);
+                    const isCorrect = power.correctBranch === branchId;
 
-            // Re-enable check button when switching to challenge mode and reset the flag
-            if (mode === 'challenge') {
-                document.getElementById('checkTimelineBtn').disabled = false;
-                hasCheckedInEasyMode = false;
+                    if (isCorrect) {
+                        correct++;
+                    }
+
+                    // Add visual feedback
+                    const powerElement = document.querySelector(`[data-power-id="${powerId}"]`);
+                    if (powerElement) {
+                        powerElement.classList.remove('correct', 'incorrect');
+                        powerElement.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                });
+            });
+
+            // Update progress
+            powersProgress.attempts++;
+            if (correct > powersProgress.bestScore) {
+                powersProgress.bestScore = correct;
             }
+            if (correct === totalPowers) {
+                powersProgress.perfectCount++;
+                createConfetti();
+            }
+            localStorage.setItem('powersProgress', JSON.stringify(powersProgress));
+            updatePowersStats();
+
+            // Show results
+            const percentage = ((correct / totalPowers) * 100).toFixed(0);
+            let message = '';
+            if (correct === totalPowers) {
+                message = `🎉 Perfect! You got all ${totalPowers} powers correct!`;
+            } else if (correct >= totalPowers * 0.8) {
+                message = `Great job! You got ${correct} out of ${totalPowers} correct (${percentage}%)`;
+            } else if (correct >= totalPowers * 0.6) {
+                message = `Good effort! You got ${correct} out of ${totalPowers} correct (${percentage}%). Keep practicing!`;
+            } else {
+                message = `You got ${correct} out of ${totalPowers} correct (${percentage}%). Review the branches and try again!`;
+            }
+
+            feedback = `
+                <div class="alert ${correct === totalPowers ? 'success' : 'info'}" style="margin: 20px 0;">
+                    <i class="fas fa-${correct === totalPowers ? 'check-circle' : 'info-circle'}"></i>
+                    <div>${message}</div>
+                </div>
+            `;
+
+            document.getElementById('powersResults').innerHTML = feedback;
+            checkBadges();
+        }
+
+        function showPowersAnswer() {
+            // Reset all placements
+            powersPlaced = { legislative: [], executive: [], judicial: [] };
+
+            // Place all powers in correct branches
+            branchPowers.forEach(power => {
+                powersPlaced[power.correctBranch].push(power.id);
+            });
+
+            renderPowers();
+
+            // Add correct class to all
+            setTimeout(() => {
+                document.querySelectorAll('.timeline-event.placed').forEach(el => {
+                    el.classList.add('correct');
+                });
+            }, 100);
+
+            document.getElementById('powersResults').innerHTML = `
+                <div class="alert info" style="margin: 20px 0;">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>Here's the correct answer! Study how each power belongs to its branch.</div>
+                </div>
+            `;
+        }
+
+        function updatePowersStats() {
+            document.getElementById('powersBestScore').textContent = powersProgress.bestScore;
+            document.getElementById('powersPerfectCount').textContent = powersProgress.perfectCount;
+            document.getElementById('powersAttempts').textContent = powersProgress.attempts;
+
+            if (powersProgress.attempts > 0) {
+                document.getElementById('powersStats').style.display = 'block';
+            }
+        }
+
+        function resetPowers() {
+            powersPlaced = { legislative: [], executive: [], judicial: [] };
+            document.getElementById('powersResults').innerHTML = '';
 
             // Remove feedback classes
             setTimeout(() => {
@@ -3589,131 +3741,7 @@
                 });
             }, 100);
 
-            renderTimeline();
-        }
-
-        function checkTimelineAnswer() {
-            let correct = 0;
-            const results = [];
-
-            for (let i = 1; i <= 10; i++) {
-                const placedEventId = timelinePlaced[i];
-                const correctEventId = i;
-                const isCorrect = placedEventId === correctEventId;
-
-                if (isCorrect) correct++;
-
-                results.push({
-                    slot: i,
-                    placedEventId,
-                    correctEventId,
-                    isCorrect
-                });
-            }
-
-            // Update progress
-            timelineProgress.attempts++;
-            if (correct > timelineProgress.bestScore) {
-                timelineProgress.bestScore = correct;
-            }
-            if (correct === 10) {
-                timelineProgress.perfectCount++;
-                showConfetti();
-            }
-            localStorage.setItem('timelineProgress', JSON.stringify(timelineProgress));
-            updateTimelineStats();
-            checkBadges();
-
-            // Show visual feedback
-            results.forEach(result => {
-                const slot = document.querySelector(`.timeline-slot[data-slot="${result.slot}"]`);
-                const eventCard = slot?.querySelector('.timeline-event');
-                if (eventCard) {
-                    if (result.isCorrect) {
-                        eventCard.classList.add('correct');
-                    } else {
-                        eventCard.classList.add('incorrect');
-                    }
-                }
-            });
-
-            // Show results
-            let resultsHTML = `
-                <div class="alert ${correct === 10 ? 'success' : 'info'}" style="margin-top: 30px;">
-                    <i class="fas ${correct === 10 ? 'fa-trophy' : 'fa-chart-line'}"></i>
-                    <div>
-                        <h3 style="margin-bottom: 10px;">Score: ${correct} out of 10 correct!</h3>
-                        ${correct === 10 ? '<p><strong>Perfect! You mastered the timeline!</strong></p>' : ''}
-                        ${correct < 10 ? '<p>Look at the events in red - those are in the wrong position. Try again!</p>' : ''}
-                    </div>
-                </div>
-            `;
-
-            if (correct < 10) {
-                resultsHTML += '<div style="margin-top: 20px; padding: 20px; background: #fff3cd; border-radius: 10px;">';
-                resultsHTML += '<h4 style="color: #856404; margin-bottom: 15px;"><i class="fas fa-lightbulb"></i> Corrections:</h4>';
-                results.forEach(result => {
-                    if (!result.isCorrect) {
-                        const correctEvent = timelineEvents.find(e => e.id === result.correctEventId);
-                        const placedEvent = timelineEvents.find(e => e.id === result.placedEventId);
-                        resultsHTML += `<p style="color: #856404; margin: 8px 0;">Position ${result.slot} should be <strong>${correctEvent?.title}</strong>${placedEvent ? `, not ${placedEvent.title}` : ' (empty)'}</p>`;
-                    }
-                });
-                resultsHTML += '</div>';
-            }
-
-            document.getElementById('timelineResults').innerHTML = resultsHTML;
-
-            // If in easy mode and first time checking, show reminder and disable button
-            if (timelineMode === 'easy' && !hasCheckedInEasyMode) {
-                hasCheckedInEasyMode = true;
-
-                // Show modal reminder
-                showNoteModal(
-                    'Write It Down! 📝',
-                    'Now that you\'ve seen the correct timeline with the dates, write it in your notebook to help you memorize it. Then switch to Challenge Mode to test yourself without the dates!',
-                    '📝'
-                );
-
-                // Disable check button in easy mode
-                document.getElementById('checkTimelineBtn').disabled = true;
-            }
-        }
-
-        function showTimelineAnswer() {
-            // Automatically place all events in correct order
-            timelinePlaced = {};
-            for (let i = 1; i <= 10; i++) {
-                timelinePlaced[i] = i;
-            }
-            renderTimeline();
-
-            // Disable check answer button to prevent cheating
-            document.getElementById('checkTimelineBtn').disabled = true;
-
-            document.getElementById('timelineResults').innerHTML = `
-                <div class="alert info" style="margin-top: 30px;">
-                    <i class="fas fa-eye"></i>
-                    <div>
-                        <p><strong>Answer revealed!</strong> Study the correct order, then click "Try Again" to practice.</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function resetTimeline() {
-            timelinePlaced = {};
-            renderTimeline();
-            document.getElementById('timelineResults').innerHTML = '';
-
-            // Re-enable check answer button and reset easy mode flag
-            document.getElementById('checkTimelineBtn').disabled = false;
-            hasCheckedInEasyMode = false;
-
-            // Remove feedback classes
-            document.querySelectorAll('.timeline-event').forEach(el => {
-                el.classList.remove('correct', 'incorrect');
-            });
+            renderPowers();
         }
 
         function updateTimelineStats() {
