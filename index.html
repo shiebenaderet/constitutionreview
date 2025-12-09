@@ -1497,8 +1497,8 @@
                 </div>
             </div>
 
-            <!-- TIMELINE CHALLENGE SECTION -->
-            <div id="timeline" class="section">
+            <!-- POWERS SORT SECTION -->
+            <div id="timeline" class="section"> <!-- Note: ID kept as "timeline" for navigation consistency -->
                 <button class="btn btn-secondary" onclick="showSection('home')">← Back to Home</button>
 
                 <h2 style="margin: 20px 0;"><i class="fas fa-balance-scale"></i> Powers Sort Challenge</h2>
@@ -1539,14 +1539,6 @@
                             <i class="fas fa-balance-scale"></i> Three Branches
                         </h3>
                         <div id="branchZones"></div>
-                    </div>
-                </div>
-
-                    <div class="timeline-slots">
-                        <h3 style="margin-bottom: 20px; color: #667eea;">
-                            <i class="fas fa-sort-numeric-up"></i> Timeline (Drag events here)
-                        </h3>
-                        <div id="timelineSlotsList"></div>
                     </div>
                 </div>
 
@@ -1749,14 +1741,14 @@
         let studyStreak = JSON.parse(localStorage.getItem('studyStreak')) || { current: 0, longest: 0, lastStudyDate: null };
         let earnedBadges = JSON.parse(localStorage.getItem('earnedBadges')) || [];
 
-        // Timeline Challenge
-        let timelineProgress = JSON.parse(localStorage.getItem('timelineProgress')) || {
+        // Powers Sort Challenge
+        let powersProgress = JSON.parse(localStorage.getItem('powersProgress')) || {
             bestScore: 0,
             perfectCount: 0,
             attempts: 0
         };
         // Powers sort doesn't need mode // Start in easy mode (show years)
-        let powersPlaced = { legislative: [], executive: [], judicial: [] }; // Maps slot index to event id
+        let powersPlaced = { legislative: [], executive: [], judicial: [] }; // Tracks which powers are in each branch
         let draggedPower = null;
         // Powers sort tracking // Track if user has checked answer in easy mode
 
