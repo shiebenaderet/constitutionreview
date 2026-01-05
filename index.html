@@ -1223,7 +1223,7 @@
                     </button>
                     <button class="nav-btn" onclick="showSection('timeline')" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
                         <i class="fas fa-balance-scale"></i> Powers Sort<br>
-                        <small>Put events in chronological order (10 events)</small>
+                        <small>Sort 15 powers into the three branches</small>
                     </button>
                     <button class="nav-btn success" onclick="showSection('shortanswer')">
                         <i class="fas fa-pencil-alt"></i> Short Answer Practice<br>
@@ -1543,7 +1543,7 @@
                 </div>
 
                 <div style="text-align: center; margin: 30px 0;">
-                    <button class="btn btn-primary" onclick="checkPowersAnswer()" id="checkTimelineBtn" style="font-size: 1.1em; padding: 12px 30px;">
+                    <button class="btn btn-primary" onclick="checkPowersAnswer()" id="checkPowersBtn" style="font-size: 1.1em; padding: 12px 30px;">
                         <i class="fas fa-check-circle"></i> Check My Answer
                     </button>
                     <button class="btn btn-secondary" onclick="resetPowers()" style="font-size: 1.1em; padding: 12px 30px;">
@@ -1657,66 +1657,647 @@
             // ADD MORE POWERS HERE
         ];
 
-                const vocabulary = [
+                        const vocabulary = [
             {
-                term: "Federalism",
-                definition: "A system of government where power is divided between national and state governments",
-                example: "The Constitution establishes federalism by giving some powers to the federal government and reserving others to the states",
-                category: "Structure of Government"
+                term: "Articles of Confederation",
+                definition: "First government plan for the United States (1781-1789)",
+                example: "The Articles of Confederation were too weak, couldn't collect taxes, and led to the Constitutional Convention",
+                category: "Foundations"
+            },
+            {
+                term: "Ratify",
+                definition: "To officially approve or confirm",
+                example: "9 of 13 states had to ratify the Constitution for it to take effect",
+                category: "Foundations"
+            },
+            {
+                term: "Amendment",
+                definition: "A change or addition to the Constitution",
+                example: "27 amendments have been added to the Constitution; the first 10 are the Bill of Rights",
+                category: "Foundations"
+            },
+            {
+                term: "Delegate",
+                definition: "A person chosen to represent others at a meeting",
+                example: "55 delegates attended the Constitutional Convention in Philadelphia—all were white, wealthy men",
+                category: "Foundations"
+            },
+            {
+                term: "Compromise",
+                definition: "An agreement where each side gives up something to reach a solution",
+                example: "The Convention required many compromises including the Great Compromise and 3/5 Compromise",
+                category: "Foundations"
+            },
+            {
+                term: "Convention",
+                definition: "A formal meeting for a specific purpose",
+                example: "The Constitutional Convention met in Philadelphia in 1787 and kept discussions secret",
+                category: "Foundations"
+            },
+            {
+                term: "Representation",
+                definition: "Having someone speak and vote for you in government",
+                example: "The central debate was whether representation should be equal or based on population",
+                category: "Foundations"
+            },
+            {
+                term: "Legislature",
+                definition: "The part of government that makes laws",
+                example: "Congress (Senate + House) is our legislative branch, created in Article I",
+                category: "Foundations"
+            },
+            {
+                term: "Preamble",
+                definition: "The introduction to the Constitution explaining its purpose",
+                example: "The Preamble begins 'We the People' and states 6 goals including 'establish justice'",
+                category: "Foundations"
             },
             {
                 term: "Separation of Powers",
-                definition: "The division of government responsibilities into distinct branches to prevent any one branch from gaining too much power",
-                example: "The Constitution separates powers among the Legislative, Executive, and Judicial branches",
+                definition: "Dividing government into three branches so no one part gets too powerful",
+                example: "The three branches are Legislative (makes laws), Executive (enforces laws), and Judicial (interprets laws)",
                 category: "Structure of Government"
             },
             {
                 term: "Checks and Balances",
-                definition: "A system that allows each branch of government to limit the powers of the other branches",
-                example: "The President can veto laws, but Congress can override that veto with a two-thirds vote",
+                definition: "System where each branch can limit the powers of the other branches",
+                example: "The President can veto laws, but Congress can override that veto with a 2/3 vote",
                 category: "Structure of Government"
+            },
+            {
+                term: "Federalist",
+                definition: "Someone who supported the Constitution and a strong central government",
+                example: "Federalists led by Hamilton, Madison, and Washington wrote the Federalist Papers to convince states to ratify",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Anti-Federalist",
+                definition: "Someone who opposed the Constitution and feared a strong central government",
+                example: "Anti-Federalists worried about loss of liberty, and their concerns led to the Bill of Rights being added",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Bill of Rights",
+                definition: "The first 10 amendments to the Constitution protecting individual freedoms",
+                example: "The Bill of Rights was added in 1791 to address Anti-Federalist concerns about protecting individual liberties",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Individual Rights",
+                definition: "Freedoms and protections belonging to each person",
+                example: "The Bill of Rights protects individual rights, but whose rights were actually protected in 1787?",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Freedom of Speech",
+                definition: "The right to express your opinions without government punishment (1st Amendment)",
+                example: "Freedom of speech is a foundation of democracy, though it has limits like not threatening violence",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Due Process",
+                definition: "Government must follow fair procedures before taking away life, liberty, or property (5th Amendment)",
+                example: "Due process protects people from unfair treatment—you have the right to a fair trial",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Sovereignty",
+                definition: "The authority and right to govern yourself",
+                example: "Tribal nations had (and have) sovereignty, but the Constitution's promises to them were repeatedly broken",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Treaty",
+                definition: "A formal agreement between nations or governments",
+                example: "The Treaty of Greenville (1795) is an example of promises vs. reality for tribal nations",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Commerce Clause",
+                definition: "Article I, Section 8 gives Congress power to regulate trade",
+                example: "The Commerce Clause was used to justify federal control over tribal lands and resources",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Supremacy Clause",
+                definition: "Article VI says Constitution, federal laws, and treaties are the supreme law of the land",
+                example: "The Supremacy Clause said treaties were supreme law, but tribal treaties were violated repeatedly",
+                category: "Rights and Reality"
+            },
+            {
+                term: "Federalism",
+                definition: "System where power is divided between federal (national) and state governments",
+                example: "The 10th Amendment reserves powers not given to federal government to the states",
+                category: "Structure of Government"
+            },
+            {
+                term: "Concurrent Powers",
+                definition: "Powers shared by both federal and state governments",
+                example: "Both federal and state governments can collect taxes, build roads, and create courts",
+                category: "Structure of Government"
+            },
+            {
+                term: "Excluded",
+                definition: "Left out, not allowed to participate",
+                example: "Women, enslaved people, tribal nations, poor white men, and free Black Americans were excluded from 'We the People'",
+                category: "Inclusion and Exclusion"
+            },
+            {
+                term: "Included",
+                definition: "Allowed to participate, having rights and power",
+                example: "Only white property-owning men (1-2% of population) were fully included in 'We the People' in 1787",
+                category: "Inclusion and Exclusion"
             }
-            // ADD MORE VOCABULARY TERMS HERE
         ];
 
-                const questions = [
+                        const questions = [
+            // SECTION A: Articles of Confederation & Convention (Questions 1-10)
             {
-                question: "Which branch of government has the power to make laws?",
+                question: "What was the main weakness of the Articles of Confederation?",
                 options: [
-                    "Executive Branch",
-                    "Legislative Branch",
-                    "Judicial Branch",
-                    "State Governments"
-                ],
-                correct: 1,
-                explanation: "The Legislative Branch (Congress) has the power to make laws. This is established in Article I of the Constitution.",
-                topic: "Structure of Government"
-            },
-            {
-                question: "What is the main purpose of the system of checks and balances?",
-                options: [
-                    "To make the government more efficient",
-                    "To prevent any one branch from becoming too powerful",
-                    "To give more power to the President",
-                    "To eliminate the need for state governments"
-                ],
-                correct: 1,
-                explanation: "Checks and balances ensure that no single branch of government can dominate the others, protecting against tyranny and maintaining balance of power.",
-                topic: "Structure of Government"
-            },
-            {
-                question: "Under federalism, which powers are reserved to the states?",
-                options: [
-                    "Declaring war",
-                    "Printing money",
-                    "Education and local government",
-                    "Making treaties with foreign nations"
+                    "Congress had too much power",
+                    "The states had no power",
+                    "Congress could not collect taxes or regulate trade",
+                    "There were too many representatives"
                 ],
                 correct: 2,
-                explanation: "The 10th Amendment reserves powers not delegated to the federal government to the states. Education, local government, and marriage laws are examples of state powers.",
-                topic: "Structure of Government"
+                explanation: "The Articles of Confederation's main weakness was that Congress could not collect taxes or regulate trade between states. This made it impossible to pay debts or solve economic problems, which led to the Constitutional Convention.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "How many states were required to ratify the Constitution for it to take effect?",
+                options: [
+                    "7 states",
+                    "9 states",
+                    "13 states (all of them)",
+                    "A simple majority"
+                ],
+                correct: 1,
+                explanation: "The Constitution required 9 of the 13 states to ratify it in order for it to take effect. This was stated in Article VII of the Constitution.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "Where did the Constitutional Convention take place in 1787?",
+                options: [
+                    "New York City",
+                    "Boston",
+                    "Philadelphia",
+                    "Washington, D.C."
+                ],
+                correct: 2,
+                explanation: "The Constitutional Convention took place in Philadelphia in 1787. The delegates met in Independence Hall, the same place where the Declaration of Independence was signed.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "About how many delegates attended the Constitutional Convention?",
+                options: [
+                    "25 delegates",
+                    "55 delegates",
+                    "100 delegates",
+                    "13 delegates (one from each state)"
+                ],
+                correct: 1,
+                explanation: "About 55 delegates attended the Constitutional Convention, though not all attended every session. All were white, wealthy, property-owning men.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "What percentage of the American population did the Constitutional Convention delegates represent?",
+                options: [
+                    "About 50%",
+                    "About 25%",
+                    "About 10%",
+                    "About 1-2%"
+                ],
+                correct: 3,
+                explanation: "The delegates represented only about 1-2% of the American population. All were white, wealthy, property-owning men. Women, enslaved people, poor men, and others had no voice at the Convention.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "The Great Compromise created:",
+                options: [
+                    "A one-house legislature based on population",
+                    "A one-house legislature with equal representation",
+                    "A two-house legislature with both population and equal representation",
+                    "A presidency instead of a legislature"
+                ],
+                correct: 2,
+                explanation: "The Great Compromise created a two-house legislature: the Senate (equal representation with 2 senators per state) and the House of Representatives (representation based on population). This satisfied both large and small states.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "The Virginia Plan favored which states?",
+                options: [
+                    "Small states",
+                    "Large states",
+                    "Southern states",
+                    "Northern states"
+                ],
+                correct: 1,
+                explanation: "The Virginia Plan favored large states because it proposed representation based on population. Large states like Virginia would have more representatives than small states.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "The New Jersey Plan favored which states?",
+                options: [
+                    "Small states",
+                    "Large states",
+                    "Southern states",
+                    "Northern states"
+                ],
+                correct: 0,
+                explanation: "The New Jersey Plan favored small states because it proposed equal representation for all states regardless of size. This would give small states like New Jersey the same power as large states.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "The 3/5 Compromise said that enslaved people would be counted as:",
+                options: [
+                    "Full persons for representation and taxation",
+                    "3/5 of a person for representation and taxation",
+                    "Not counted at all",
+                    "Counted only for representation, not taxation"
+                ],
+                correct: 1,
+                explanation: "The 3/5 Compromise said that enslaved people would be counted as 3/5 of a person for both representation and taxation. This gave Southern states more representatives while treating enslaved people as property, not citizens.",
+                topic: "Articles of Confederation & Convention"
+            },
+            {
+                question: "Why did Southern states want enslaved people counted for representation?",
+                options: [
+                    "To give enslaved people voting rights",
+                    "To increase their number of representatives in Congress",
+                    "To protect enslaved people's freedom",
+                    "To end slavery"
+                ],
+                correct: 1,
+                explanation: "Southern states wanted enslaved people counted to increase their number of representatives in Congress. More population meant more representatives and more power, even though enslaved people couldn't vote and had no rights.",
+                topic: "Articles of Confederation & Convention"
+            },
+
+            // SECTION B: Structure & Powers (Questions 11-20)
+            {
+                question: "Which Article of the Constitution creates the legislative branch (Congress)?",
+                options: [
+                    "Article I",
+                    "Article II",
+                    "Article III",
+                    "Article VI"
+                ],
+                correct: 0,
+                explanation: "Article I creates the legislative branch (Congress), which includes the Senate and House of Representatives. It describes the powers and responsibilities of Congress.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "Which Article creates the executive branch (President)?",
+                options: [
+                    "Article I",
+                    "Article II",
+                    "Article III",
+                    "Article VI"
+                ],
+                correct: 1,
+                explanation: "Article II creates the executive branch and the office of the President. It describes the President's powers, responsibilities, and the electoral process.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "Which Article creates the judicial branch (courts)?",
+                options: [
+                    "Article I",
+                    "Article II",
+                    "Article III",
+                    "Article VI"
+                ],
+                correct: 2,
+                explanation: "Article III creates the judicial branch, establishing the Supreme Court and allowing Congress to create lower federal courts. It describes the power of federal courts to interpret laws.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "The Preamble to the Constitution begins with what three words?",
+                options: [
+                    "In the beginning",
+                    "We the People",
+                    "Four score and seven",
+                    "When in the course"
+                ],
+                correct: 1,
+                explanation: "The Preamble begins 'We the People'—though in 1787, this only included white property-owning men, about 1-2% of the population.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "What does 'separation of powers' mean?",
+                options: [
+                    "States have more power than federal government",
+                    "Government is divided into three branches",
+                    "Power is separated between rich and poor",
+                    "The President has all the power"
+                ],
+                correct: 1,
+                explanation: "Separation of powers means government is divided into three branches: Legislative (makes laws), Executive (enforces laws), and Judicial (interprets laws). This prevents any one branch from becoming too powerful.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "What does 'checks and balances' mean?",
+                options: [
+                    "Keeping government budgets balanced",
+                    "Each branch can limit the powers of the other branches",
+                    "Making sure everyone has equal money",
+                    "Separating state and federal governments"
+                ],
+                correct: 1,
+                explanation: "Checks and balances is a system where each branch of government can limit the powers of the other branches. This ensures no single branch becomes too powerful.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "The President can veto a law passed by Congress. This is an example of:",
+                options: [
+                    "Separation of powers",
+                    "Federalism",
+                    "Checks and balances",
+                    "Judicial review"
+                ],
+                correct: 2,
+                explanation: "The presidential veto is an example of checks and balances. It allows the Executive branch to check the power of the Legislative branch by rejecting laws.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "Congress can override a presidential veto with:",
+                options: [
+                    "A simple majority vote",
+                    "A 2/3 vote in both houses",
+                    "A 3/4 vote in both houses",
+                    "Approval from the Supreme Court"
+                ],
+                correct: 1,
+                explanation: "Congress can override a presidential veto with a 2/3 vote in both the House and Senate. This is another example of checks and balances—Congress can check the President's veto power.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "How many amendments does it take to change the Constitution?",
+                options: [
+                    "Just one amendment",
+                    "A majority vote in Congress",
+                    "2/3 of Congress propose, 3/4 of states ratify",
+                    "All states must agree"
+                ],
+                correct: 2,
+                explanation: "To amend the Constitution, 2/3 of both houses of Congress must propose the amendment, and then 3/4 of the states must ratify it. This ensures broad support for changes.",
+                topic: "Structure & Powers"
+            },
+            {
+                question: "How many total amendments have been added to the Constitution?",
+                options: [
+                    "10 amendments",
+                    "15 amendments",
+                    "27 amendments",
+                    "50 amendments"
+                ],
+                correct: 2,
+                explanation: "27 amendments have been added to the Constitution since it was ratified. The first 10 are the Bill of Rights, added in 1791.",
+                topic: "Structure & Powers"
+            },
+
+            // SECTION C: Bill of Rights & Federalism (Questions 21-30)
+            {
+                question: "Who were the Federalists?",
+                options: [
+                    "People who wanted strong state governments",
+                    "People who opposed the Constitution",
+                    "People who supported the Constitution and a strong national government",
+                    "People who wanted to keep the Articles of Confederation"
+                ],
+                correct: 2,
+                explanation: "Federalists supported the Constitution and wanted a strong national government. Leaders like Hamilton, Madison, and Washington wrote the Federalist Papers to convince states to ratify the Constitution.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "Who were the Anti-Federalists?",
+                options: [
+                    "People who supported the Constitution",
+                    "People who opposed the Constitution and feared strong central government",
+                    "People who didn't care about the Constitution",
+                    "People who wanted a king"
+                ],
+                correct: 1,
+                explanation: "Anti-Federalists opposed the Constitution because they feared a strong central government would take away individual liberties. Their concerns led to the addition of the Bill of Rights.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "What convinced many Anti-Federalists to support ratification?",
+                options: [
+                    "The promise to add a Bill of Rights",
+                    "George Washington's threats",
+                    "Payments of money",
+                    "Nothing—they never supported it"
+                ],
+                correct: 0,
+                explanation: "The promise to add a Bill of Rights convinced many Anti-Federalists to support ratification. They wanted specific protections for individual freedoms written into the Constitution.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "The Bill of Rights is:",
+                options: [
+                    "A list of things the government must provide",
+                    "The first 10 amendments protecting individual freedoms",
+                    "The Preamble to the Constitution",
+                    "A separate document from the Constitution"
+                ],
+                correct: 1,
+                explanation: "The Bill of Rights is the first 10 amendments to the Constitution, added in 1791 to protect individual freedoms like speech, religion, press, and due process.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "When was the Bill of Rights added to the Constitution?",
+                options: [
+                    "1787",
+                    "1788",
+                    "1791",
+                    "1800"
+                ],
+                correct: 2,
+                explanation: "The Bill of Rights was added to the Constitution in 1791, four years after the Constitution was written and two years after it was ratified.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "Which amendment protects freedom of speech, religion, press, and assembly?",
+                options: [
+                    "1st Amendment",
+                    "2nd Amendment",
+                    "4th Amendment",
+                    "10th Amendment"
+                ],
+                correct: 0,
+                explanation: "The 1st Amendment protects freedom of speech, religion, press, assembly, and petition. These are fundamental freedoms in a democratic society.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "Which amendment protects against unreasonable searches and seizures?",
+                options: [
+                    "1st Amendment",
+                    "4th Amendment",
+                    "5th Amendment",
+                    "6th Amendment"
+                ],
+                correct: 1,
+                explanation: "The 4th Amendment protects against unreasonable searches and seizures. The government must have a warrant based on probable cause to search you or your property.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "The 5th Amendment guarantees:",
+                options: [
+                    "Freedom of speech",
+                    "Right to bear arms",
+                    "Due process and protection against self-incrimination",
+                    "Right to a speedy trial"
+                ],
+                correct: 2,
+                explanation: "The 5th Amendment guarantees due process (fair legal procedures) and protects against self-incrimination (you can't be forced to testify against yourself). It also protects against double jeopardy.",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "What is federalism?",
+                options: [
+                    "The system where power is divided between federal and state governments",
+                    "Support for the Federalist Party",
+                    "The belief in a strong monarchy",
+                    "The separation of powers into three branches"
+                ],
+                correct: 0,
+                explanation: "Federalism is the system where power is divided between the federal (national) government and state governments. Some powers are given to the federal government, some to states, and some are shared (concurrent powers).",
+                topic: "Bill of Rights & Federalism"
+            },
+            {
+                question: "Which clause says that the Constitution, federal laws, and treaties are the supreme law of the land?",
+                options: [
+                    "Commerce Clause",
+                    "Necessary and Proper Clause",
+                    "Supremacy Clause",
+                    "Fugitive Slave Clause"
+                ],
+                correct: 2,
+                explanation: "The Supremacy Clause (Article VI) says that the Constitution, federal laws, and treaties are the supreme law of the land. This means federal law overrides state law when they conflict.",
+                topic: "Bill of Rights & Federalism"
+            },
+
+            // SECTION D: Inclusion & Exclusion (Questions 31-40)
+            {
+                question: "In 1787, who could vote in most states?",
+                options: [
+                    "All adults over 21",
+                    "White men who owned property",
+                    "All men over 21",
+                    "Everyone except enslaved people"
+                ],
+                correct: 1,
+                explanation: "In 1787, only white men who owned property could vote in most states. This was about 1-2% of the population. Women, enslaved people, free Black Americans, and poor white men could not vote.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "Which group was specifically excluded from citizenship by the Constitution?",
+                options: [
+                    "Women",
+                    "Poor white men",
+                    "Native Americans / Tribal nations",
+                    "All of the above"
+                ],
+                correct: 3,
+                explanation: "All of these groups were excluded. The Constitution left voting to states (which excluded women and poor men), protected slavery (excluding enslaved people), and did not consider Native Americans as citizens.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "Why were women excluded from political participation in 1787?",
+                options: [
+                    "They were considered property of their fathers or husbands",
+                    "People believed women were not capable of political decisions",
+                    "Common law and cultural beliefs about women's roles",
+                    "All of the above"
+                ],
+                correct: 3,
+                explanation: "All of these reasons explain why women were excluded. Common law, cultural beliefs, and legal treatment of women as property all combined to exclude them from political participation.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "When did women gain the right to vote nationwide?",
+                options: [
+                    "1787 (with the Constitution)",
+                    "1865 (with the 13th Amendment)",
+                    "1920 (with the 19th Amendment)",
+                    "1965 (with the Voting Rights Act)"
+                ],
+                correct: 2,
+                explanation: "Women gained the right to vote nationwide in 1920 with the 19th Amendment. This was 133 years after the Constitution was written.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "How many free Black Americans lived in the United States in 1787?",
+                options: [
+                    "None",
+                    "About 10,000",
+                    "About 60,000",
+                    "About 500,000"
+                ],
+                correct: 2,
+                explanation: "About 60,000 free Black Americans lived in the United States in 1787. They had very limited rights that varied by state, and faced significant discrimination.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "In 1787, free Black Americans:",
+                options: [
+                    "Had all the same rights as white citizens",
+                    "Had very limited rights that varied by state",
+                    "Had no rights at all",
+                    "Could vote in all Northern states"
+                ],
+                correct: 1,
+                explanation: "Free Black Americans had very limited rights that varied by state. Some could vote in certain Northern states early on, but most faced severe restrictions and discrimination.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "Which amendment abolished slavery?",
+                options: [
+                    "10th Amendment",
+                    "13th Amendment",
+                    "15th Amendment",
+                    "19th Amendment"
+                ],
+                correct: 1,
+                explanation: "The 13th Amendment (1865) abolished slavery. This was 78 years after the Constitution was written and came after the Civil War.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "The Commerce Clause gave Congress power to:",
+                options: [
+                    "Regulate trade with other nations and between states",
+                    "Print money",
+                    "Declare war",
+                    "Ratify treaties"
+                ],
+                correct: 0,
+                explanation: "The Commerce Clause (Article I, Section 8) gave Congress power to regulate trade with other nations, between states, and with tribal nations. It was often used to justify federal control over tribal lands.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "What does sovereignty mean for tribal nations?",
+                options: [
+                    "They have no rights",
+                    "They are foreign countries",
+                    "They have the right to self-government",
+                    "They must follow all state laws"
+                ],
+                correct: 2,
+                explanation: "Sovereignty means tribal nations have the right to self-government. The Constitution recognized this by treating tribes as separate political entities, though treaty promises were often broken.",
+                topic: "Inclusion & Exclusion"
+            },
+            {
+                question: "The Treaty of Greenville (1795) showed:",
+                options: [
+                    "That the Constitution protected tribal sovereignty",
+                    "That treaty promises were often broken by the U.S. government",
+                    "That tribal nations had equal power with the United States",
+                    "That the Supremacy Clause was always followed"
+                ],
+                correct: 1,
+                explanation: "The Treaty of Greenville showed that treaty promises were often broken by the U.S. government. Despite the Supremacy Clause saying treaties were supreme law, the government repeatedly violated agreements with tribal nations.",
+                topic: "Inclusion & Exclusion"
             }
-            // ADD MORE MULTIPLE CHOICE QUESTIONS HERE
         ];
 
         // ==================== STATE MANAGEMENT ====================
@@ -1728,6 +2309,7 @@
         let wrongAnswerCount = JSON.parse(localStorage.getItem('wrongAnswerCount')) || {}; // Track wrong answers per question
         let testResults = JSON.parse(localStorage.getItem('testResults')) || [];
         let currentPracticeQuestions = [];
+        let testQuestions = [];
         let currentPracticeIndex = 0;
 
         // Study Timer
@@ -2437,7 +3019,7 @@
                 <div id="testQuestions">
             `;
             
-            questions.forEach((question, qIndex) => {
+            testQuestions.forEach((question, qIndex) => {
                 testHTML += `
                     <div class="question-card">
                         <h3>Question ${qIndex + 1}</h3>
@@ -2488,14 +3070,14 @@
 
         function updateTestProgress() {
             const answered = Object.keys(testAnswers).length;
-            const percent = (answered / questions.length * 100).toFixed(0);
-            document.getElementById('testProgress').textContent = `${answered} of ${questions.length} answered`;
+            const percent = (answered / testQuestions.length * 100).toFixed(0);
+            document.getElementById('testProgress').textContent = `${answered} of ${testQuestions.length} answered`;
             document.getElementById('testProgressBar').style.width = `${percent}%`;
         }
 
         function gradeTest() {
-            if (Object.keys(testAnswers).length < questions.length) {
-                if (!confirm(`You've only answered ${Object.keys(testAnswers).length} of ${questions.length} questions. Submit anyway?`)) {
+            if (Object.keys(testAnswers).length < testQuestions.length) {
+                if (!confirm(`You've only answered ${Object.keys(testAnswers).length} of ${testQuestions.length} questions. Submit anyway?`)) {
                     return;
                 }
             }
@@ -2904,42 +3486,97 @@
 
         // ==================== SHORT ANSWER PRACTICE ====================
         
-                const shortAnswerQuestions = [
+                        const shortAnswerQuestions = [
             {
-                question: "Explain how the system of checks and balances works. Give at least two specific examples of how one branch can check another branch's power.",
-                topic: "Structure of Government",
+                question: "The Constitutional Convention required many compromises. Choose ONE compromise (Great Compromise, 3/5 Compromise, or Slave Trade Compromise) and explain: (1) What was the conflict that needed to be resolved? (2) How did the compromise attempt to solve it? (3) Who benefited from this compromise and who was harmed by it?",
+                topic: "Articles of Confederation & Convention",
                 rubric: [
-                    "Defines checks and balances",
-                    "Provides at least TWO specific examples",
-                    "Explains WHY this system is important",
-                    "Uses proper grammar and complete sentences"
+                    "Clearly identifies specific compromise",
+                    "Explains the conflict in detail",
+                    "Describes the solution accurately",
+                    "Analyzes who benefited AND who was harmed",
+                    "Uses specific evidence"
                 ],
-                modelAnswer: "Checks and balances is a system where each branch of government can limit the power of the others. For example, the President (Executive) can veto laws passed by Congress (Legislative), but Congress can override that veto with a two-thirds vote. Another example is that the Supreme Court (Judicial) can declare laws unconstitutional, checking the power of both Congress and the President. This system is important because it prevents any one branch from becoming too powerful and protects against tyranny.",
+                modelAnswer: "The 3/5 Compromise attempted to resolve a conflict between Northern and Southern states about how to count enslaved people for representation in Congress. Southern states wanted enslaved people counted fully to increase their representation, even though enslaved people could not vote. Northern states didn't want enslaved people counted at all because it would give Southern states more power. The compromise said that enslaved people would count as 3/5 of a person for both representation and taxation. This meant the South got more representatives in Congress, but also had to pay more in taxes. Southern slaveholders benefited because they got more power in Congress without having to give enslaved people any rights. This helped them pass laws protecting slavery. Northern states benefited slightly from higher Southern taxes. Enslaved people were harmed the most. They were treated as property, not people, and the compromise helped keep slavery legal. This compromise showed that the Framers valued maintaining the union more than ending slavery.",
                 sentenceStarters: [
-                    "Checks and balances means...",
-                    "One example is when the [branch] can...",
-                    "Another example is...",
-                    "This system is important because..."
+                    "I chose the [name] Compromise...",
+                    "The conflict was between...",
+                    "The compromise solution was...",
+                    "This benefited... but harmed..."
                 ]
             },
             {
-                question: "What is federalism and why did the Framers of the Constitution choose this system? What are the advantages and disadvantages?",
-                topic: "Structure of Government",
+                question: "The Constitution begins 'We the People.' Based on what you learned in this unit: (1) Who was INCLUDED in 'We the People' in 1787? (2) Choose TWO groups who were EXCLUDED and explain why they were left out. (3) How does understanding who was excluded change how we should think about the Constitution?",
+                topic: "Inclusion & Exclusion",
                 rubric: [
-                    "Defines federalism clearly",
-                    "Explains the Framers' reasoning",
-                    "Identifies at least one advantage",
-                    "Identifies at least one disadvantage"
+                    "Clearly identifies who was included (white property-owning men)",
+                    "Explains TWO excluded groups with specific reasons",
+                    "Provides thoughtful analysis of what exclusion means for understanding Constitution",
+                    "Uses evidence from unit",
+                    "Well-organized response"
                 ],
-                modelAnswer: "Federalism is a system where power is divided between the national government and state governments. The Framers chose this system to balance the need for a strong central government with the desire to preserve state independence. An advantage is that states can experiment with different policies suited to their populations. A disadvantage is that it can create conflicts between state and federal law, and some issues fall into gray areas where jurisdiction is unclear.",
+                modelAnswer: "In 1787, 'We the People' really meant white men who owned property. This was only about 1-2% of the population. They were the only people who could vote in most states and hold political office. Two excluded groups were women and enslaved people. Women were excluded because people believed they were not capable of making political decisions and should focus on their families. Under common law, married women were considered property of their husbands and had almost no legal rights. They couldn't vote, couldn't own property, and couldn't participate in government. Enslaved people were excluded because they were considered property, not human beings. The 3/5 Compromise even counted them as part of a person for representation purposes, but they had absolutely no rights. Slavery was legal and protected by the Constitution through compromises like not allowing Congress to ban the slave trade until 1808. Understanding who was excluded changes how we think about the Constitution because it shows us that 'liberty and justice for all' was not the reality in 1787. The Constitution created a government by and for wealthy white men. It took many amendments—the 13th, 14th, 15th, and 19th—to begin expanding rights to excluded groups. This helps us see the Constitution as a starting point that needed to grow and change, not a perfect document.",
                 sentenceStarters: [
-                    "Federalism is...",
-                    "The Framers chose this system because...",
-                    "One advantage is...",
-                    "One disadvantage is..."
+                    "In 1787, 'We the People' meant...",
+                    "The first excluded group was...",
+                    "The second excluded group was...",
+                    "Understanding exclusion shows us..."
+                ]
+            },
+            {
+                question: "The ratification debate between Federalists and Anti-Federalists raised important questions about government power. Explain: (1) What did Federalists believe about the Constitution and central government? (2) What did Anti-Federalists fear? (3) How did the Bill of Rights address Anti-Federalist concerns? (4) In your opinion, who had the better argument? Why?",
+                topic: "Bill of Rights & Federalism",
+                rubric: [
+                    "Clearly explains Federalist beliefs",
+                    "Clearly explains Anti-Federalist fears",
+                    "Explains how Bill of Rights addressed concerns",
+                    "States opinion with reasoning",
+                    "Uses specific evidence"
+                ],
+                modelAnswer: "Federalists believed that the Constitution created the right balance of power and that a strong central government was necessary to solve problems the Articles of Confederation couldn't handle. They thought the separation of powers and checks and balances would prevent tyranny. Leaders like Alexander Hamilton and James Madison wrote the Federalist Papers arguing that the large size of the republic would prevent any one faction from taking over. Anti-Federalists feared that the Constitution gave too much power to the central government and would lead to tyranny. They worried that without specific protections for individual rights, the government could take away people's freedoms. They thought the President was too much like a king and that ordinary people would have no voice. Anti-Federalists like Brutus wrote about these concerns. The Bill of Rights addressed Anti-Federalist concerns by specifically listing individual rights that the government could not take away—freedom of speech, religion, press, assembly, right to trial by jury, protection against unreasonable searches, and others. The 10th Amendment also reserved powers not given to the federal government to the states, which Anti-Federalists wanted. In my opinion, Anti-Federalists had the better argument because their concerns led to the Bill of Rights, which are some of our most important freedoms today. Without them pushing for individual rights protections, we might not have them in writing. Even though Federalists won and the Constitution was ratified, the Anti-Federalists were right that we needed specific guarantees of liberty.",
+                sentenceStarters: [
+                    "Federalists believed...",
+                    "Anti-Federalists feared...",
+                    "The Bill of Rights addressed these concerns by...",
+                    "I think... had the better argument because..."
+                ]
+            },
+            {
+                question: "The Constitution made promises about rights and justice, but the reality was different for many groups. Choose ONE example from the unit (women, enslaved people, tribal nations, poor white men, or free Black Americans) and explain: (1) What promises did the Constitution make? (2) What was the reality for this group in 1787? (3) How long did it take for the promises to become reality (if they did)?",
+                topic: "Inclusion & Exclusion",
+                rubric: [
+                    "Identifies specific group",
+                    "Explains constitutional promises clearly",
+                    "Describes reality with specific details",
+                    "Discusses timeline of change",
+                    "Uses evidence from unit"
+                ],
+                modelAnswer: "I'm focusing on tribal nations. The Constitution promised in the Supremacy Clause (Article VI) that treaties would be the 'supreme law of the land,' meaning they had to be followed just like the Constitution itself. The Constitution also gave Congress power to regulate commerce with tribal nations in the Commerce Clause, treating them as separate political entities with sovereignty. The reality was very different. The Treaty of Greenville (1795) is a perfect example. After the United States forced tribal nations to sign treaties giving up their lands, the government repeatedly broke those promises. White settlers moved onto tribal lands even though the treaty said they couldn't. The government used the Commerce Clause not to protect tribal sovereignty, but to justify taking more land and resources. Over time, it got worse, not better. In the 1800s, the Indian Removal Act forced tribes off their lands (Trail of Tears). It wasn't until the Indian Reorganization Act of 1934 that the U.S. started to recognize tribal sovereignty again, and even today there are still conflicts over treaty rights and land. So it took over 140 years for the government to even begin honoring the constitutional promise that treaties are supreme law, and many treaty promises still haven't been fulfilled. This shows that the Constitution's words about justice and law didn't apply equally to everyone. Tribal nations were promised legal protections, but racism and desire for land made the government ignore those promises.",
+                sentenceStarters: [
+                    "I chose the group...",
+                    "The Constitution promised...",
+                    "The reality in 1787 was...",
+                    "It took... years for..."
+                ]
+            },
+            {
+                question: "People sometimes call the Constitution a 'living document' because it can be changed through amendments. Based on what you learned: (1) Why did the Framers make it possible to amend the Constitution? (2) Give TWO examples of amendments that expanded who was included in 'We the People.' (3) Do you think the amendment process works well? Why or why not?",
+                topic: "Structure & Powers",
+                rubric: [
+                    "Explains why amendment process was included",
+                    "Provides two specific amendment examples",
+                    "Explains how amendments expanded inclusion",
+                    "States clear opinion with reasoning",
+                    "Uses evidence"
+                ],
+                modelAnswer: "The Framers made it possible to amend the Constitution because they knew they couldn't predict all future problems and that society would change over time. They wanted the Constitution to be flexible enough to adapt to new situations. James Madison said the Constitution should be 'sufficient for the exigencies of the future,' meaning it should handle future needs. The amendment process (2/3 of Congress propose, 3/4 of states ratify) makes sure changes have broad support. Two examples of amendments that expanded inclusion are the 13th and 19th Amendments. The 13th Amendment (1865) abolished slavery, which began the process of including formerly enslaved people in 'We the People,' though full equality took much longer. The 19th Amendment (1920) gave women the right to vote, finally including them in political participation after being excluded for over 130 years. I think the amendment process has both strengths and weaknesses. The strength is that it makes sure only widely supported changes happen—you can't just change the Constitution because one party wins an election. This protects against temporary popular opinions becoming permanent law. The weakness is that it's very hard to amend the Constitution. Only 27 amendments in over 230 years shows how difficult it is. This means important changes can take a very long time. For example, women fought for 70+ years for voting rights. Some people think it should be easier to amend the Constitution so it can keep up with changing society better.",
+                sentenceStarters: [
+                    "The Framers included the amendment process because...",
+                    "The first example is the... Amendment, which...",
+                    "The second example is the... Amendment, which...",
+                    "I think the amendment process... because..."
                 ]
             }
-            // ADD MORE SHORT ANSWER QUESTIONS HERE
         ];
 
         let currentShortAnswerIndex = 0;
@@ -3077,29 +3714,33 @@
         function getHelpLinks(topic) {
             // Map topics to appropriate help resources
             const links = {
-                "Causes of Unrest": [
-                    { title: "American Revolution - Britannica Kids", url: "https://kids.britannica.com/kids/article/American-Revolution/352838" },
-                    { title: "Causes of the Revolutionary War - Kiddle", url: "https://kids.kiddle.co/American_Revolutionary_War" }
+                "Foundations": [
+                    { title: "U.S. Constitution - Britannica Kids", url: "https://kids.britannica.com/kids/article/Constitution-of-the-United-States/353115" },
+                    { title: "Constitutional Convention - Kiddle", url: "https://kids.kiddle.co/Constitutional_Convention_(United_States)" }
                 ],
-                "Causes of Unrest - Escalation": [
-                    { title: "Road to Revolution Timeline - Britannica", url: "https://kids.britannica.com/kids/article/American-Revolution/352838" },
-                    { title: "Revolutionary War Events - Kiddle", url: "https://kids.kiddle.co/American_Revolutionary_War" }
+                "Articles of Confederation & Convention": [
+                    { title: "Articles of Confederation - Britannica Kids", url: "https://kids.britannica.com/kids/article/Articles-of-Confederation/390775" },
+                    { title: "Constitutional Convention 1787 - Kiddle", url: "https://kids.kiddle.co/Constitutional_Convention_(United_States)" }
                 ],
-                "1776 Musical": [
-                    { title: "Declaration of Independence - Britannica Kids", url: "https://kids.britannica.com/kids/article/Declaration-of-Independence/353133" },
-                    { title: "Thomas Jefferson - Kiddle", url: "https://kids.kiddle.co/Thomas_Jefferson" }
+                "Structure & Powers": [
+                    { title: "Three Branches of Government - Britannica Kids", url: "https://kids.britannica.com/kids/article/government/353348" },
+                    { title: "Checks and Balances - Kiddle", url: "https://kids.kiddle.co/Separation_of_powers" }
                 ],
-                "Uncovering Loyalties": [
-                    { title: "Different Perspectives in Revolution - Britannica", url: "https://kids.britannica.com/kids/article/American-Revolution/352838" },
-                    { title: "Loyalists - Kiddle", url: "https://kids.kiddle.co/Loyalist_(American_Revolution)" }
+                "Bill of Rights & Federalism": [
+                    { title: "Bill of Rights - Britannica Kids", url: "https://kids.britannica.com/kids/article/Bill-of-Rights/352959" },
+                    { title: "Federalism - Kiddle", url: "https://kids.kiddle.co/Federalism" }
                 ],
-                "Declaration of Independence": [
-                    { title: "Declaration of Independence - Britannica Kids", url: "https://kids.britannica.com/kids/article/Declaration-of-Independence/353133" },
-                    { title: "Declaration Text & History - Kiddle", url: "https://kids.kiddle.co/United_States_Declaration_of_Independence" }
+                "Rights and Reality": [
+                    { title: "Bill of Rights - Britannica Kids", url: "https://kids.britannica.com/kids/article/Bill-of-Rights/352959" },
+                    { title: "U.S. Constitutional Amendments - Kiddle", url: "https://kids.kiddle.co/List_of_amendments_to_the_United_States_Constitution" }
+                ],
+                "Inclusion & Exclusion": [
+                    { title: "Voting Rights History - Britannica Kids", url: "https://kids.britannica.com/kids/article/voting/353759" },
+                    { title: "Constitutional Amendments - Kiddle", url: "https://kids.kiddle.co/List_of_amendments_to_the_United_States_Constitution" }
                 ]
             };
 
-            const topicLinks = links[topic] || links["Causes of Unrest"];
+            const topicLinks = links[topic] || links["Foundations"];
 
             return topicLinks.map(link => `
                 <a href="${link.url}" target="_blank" style="
@@ -4100,7 +4741,7 @@ Generated: ${new Date().toLocaleString()}`;
             if (activeSection === 'timeline') {
                 if (event.key === 'r' || event.key === 'R') {
                     event.preventDefault();
-                    resetTimeline();
+                    resetPowers();
                 }
             }
 
