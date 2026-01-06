@@ -3400,7 +3400,7 @@
                 totalStudyTime: totalStudyTime,
                 studyStreak: studyStreak,
                 earnedBadges: earnedBadges,
-                timelineProgress: timelineProgress,
+                powersProgress: powersProgress,
                 shortAnswerResponses: JSON.parse(localStorage.getItem('shortAnswerResponses')) || {}
             };
 
@@ -3411,7 +3411,7 @@
             const link = document.createElement('a');
             link.href = url;
             const dateStr = new Date().toISOString().split('T')[0];
-            link.download = `revolution-review-progress-${dateStr}.json`;
+            link.download = `constitution-review-progress-${dateStr}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -3442,7 +3442,7 @@
                         totalStudyTime = importData.totalStudyTime || 0;
                         studyStreak = importData.studyStreak || { current: 0, longest: 0, lastStudyDate: null };
                         earnedBadges = importData.earnedBadges || [];
-                        timelineProgress = importData.timelineProgress || { bestScore: 0, perfectCount: 0, attempts: 0 };
+                        powersProgress = importData.powersProgress || { bestScore: 0, perfectCount: 0, attempts: 0 };
 
                         // Save to localStorage
                         localStorage.setItem('vocabProgress', JSON.stringify(vocabProgress));
@@ -3451,7 +3451,7 @@
                         localStorage.setItem('totalStudyTime', totalStudyTime);
                         localStorage.setItem('studyStreak', JSON.stringify(studyStreak));
                         localStorage.setItem('earnedBadges', JSON.stringify(earnedBadges));
-                        localStorage.setItem('timelineProgress', JSON.stringify(timelineProgress));
+                        localStorage.setItem('powersProgress', JSON.stringify(powersProgress));
 
                         if (importData.shortAnswerResponses) {
                             localStorage.setItem('shortAnswerResponses', JSON.stringify(importData.shortAnswerResponses));
