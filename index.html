@@ -1231,7 +1231,7 @@
                     </button>
                     <button class="nav-btn success" onclick="showSection('test')">
                         <i class="fas fa-check-circle"></i> Take a Practice Test<br>
-                        <small>See if you're ready (30 questions)</small>
+                        <small>See if you're ready (20 random questions)</small>
                     </button>
                     <button class="nav-btn" onclick="showSection('progress')">
                         <i class="fas fa-chart-line"></i> Check My Progress<br>
@@ -1357,7 +1357,7 @@
                 <div class="alert info">
                     <i class="fas fa-bolt"></i>
                     <div>
-                        <strong>Test Mode:</strong> Answer all 30 questions, then see your results. No peeking at answers until the end!
+                        <strong>Test Mode:</strong> Answer all 20 questions, then see your results. No peeking at answers until the end!
                     </div>
                 </div>
 
@@ -3096,7 +3096,7 @@
             let topicScores = {};
             let incorrectQuestions = [];
             
-            questions.forEach((question, qIndex) => {
+            testQuestions.forEach((question, qIndex) => {
                 const userAnswer = testAnswers[qIndex];
                 const isCorrect = userAnswer === question.correct;
                 
@@ -3128,7 +3128,7 @@
                 }
             });
 
-            const score = (correct / questions.length * 100).toFixed(0);
+            const score = (correct / testQuestions.length * 100).toFixed(0);
             
             // Save result
             testResults.push({
