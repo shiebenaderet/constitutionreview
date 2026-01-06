@@ -3011,10 +3011,20 @@
         function loadTest() {
             testAnswers = {};
 
+            // Randomly select 20 questions from all 40
+            const shuffled = [...questions].sort(() => Math.random() - 0.5);
+            testQuestions = shuffled.slice(0, 20);
+
             let testHTML = `
+                <div class="alert info" style="margin-bottom: 20px;">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Practice Test:</strong> This test contains 20 randomly selected questions from all topics. Answer all questions and submit for grading to see which topics need more study.
+                    </div>
+                </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="testProgressBar" style="width: 0%"></div>
-                    <div class="progress-text" id="testProgress">0 of 30 answered</div>
+                    <div class="progress-text" id="testProgress">0 of 20 answered</div>
                 </div>
                 <div id="testQuestions">
             `;
