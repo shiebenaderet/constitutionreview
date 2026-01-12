@@ -4033,8 +4033,12 @@
                 return;
             }
 
-            // Show vocab or question
-            if (focusedType === 'vocab' && focusedVocab.length > 0) {
+            // Show vocab or question - handle edge cases where one type might be empty
+            const shouldShowVocab = (focusedType === 'vocab' && focusedVocab.length > 0) ||
+                                    (focusedVocab.length > 0 && focusedQuestions.length === 0);
+            const shouldShowQuestion = !shouldShowVocab && focusedQuestions.length > 0;
+
+            if (shouldShowVocab) {
                 const vocab = focusedVocab.shift();
                 contentHTML += `
                     <div class="flashcard" id="focusedCard" style="cursor: pointer; position: relative;">
@@ -4068,7 +4072,7 @@
                         });
                     }
                 }, 0);
-            } else if (focusedQuestions.length > 0) {
+            } else if (shouldShowQuestion) {
                 const qData = focusedQuestions.shift();
                 const question = qData.question;
                 contentHTML += `
